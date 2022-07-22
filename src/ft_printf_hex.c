@@ -81,12 +81,12 @@ int	ft_print_p(t_format fmt, va_list ap)
 	n = va_arg(ap, size_t);
 	length = ft_count_digit_base(n, 16);
 	fmt.width -= 2;
-	if (!fmt.minus && fmt.width > length)
+	if (!fmt.minus)
 		count += ft_putnchar_fd(' ', 1, fmt.width - length);
 	count += ft_putstrn_fd("0x", 1, 2);
 	if (length)
 		count += ft_recursive_hex(fmt, n, n);
-	if (fmt.minus && fmt.width > length)
+	if (fmt.minus)
 		count += ft_putnchar_fd(' ', 1, fmt.width - length);
 	return (count);
 }

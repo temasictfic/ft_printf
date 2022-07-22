@@ -27,17 +27,17 @@ static int	ft_print_nbr(t_format fmt, char *nbr, int len, int neg)
 	fmt.width -= (fmt.space && !neg && !fmt.plus && fmt.width);
 	c += ft_putnchar_fd(sign(fmt), 1, fmt.zero && (neg || fmt.plus));
 	c += ft_putnchar_fd(' ', 1, fmt.zero && fmt.space);
-	if (!fmt.minus && fmt.zero)
+	if (!fmt.minus && fmt.zero && fmt.width > fmt.prec)
 		c += ft_putnchar_fd('0', 1, fmt.width - fmt.prec - neg || fmt.plus);
-	else if (!fmt.minus)
+	else if (!fmt.minus && fmt.width > fmt.prec)
 		c += ft_putnchar_fd(' ', 1, fmt.width - fmt.prec - neg || fmt.plus);
 	if (neg || fmt.plus)
-		c += ft_putnchar_fd(sign(fmt), 1, (fmt.dot && fmt.neg_prec));
+		c += ft_putnchar_fd(sign(fmt), 1, !fmt.zero || (fmt.dot && fmt.neg_prec));
 	else if (fmt.space)
-		c += ft_putnchar_fd(' ', 1, fmt.dot);
+		c += ft_putnchar_fd(' ', 1, !fmt.zero || fmt.dot);
 	c += ft_putnchar_fd('0', 1, fmt.prec - len);
-	c += write(1, nbr, len);
-	if (fmt.minus)
+	c += ft_putstrn_fd(nbr, 1, len);
+	if (fmt.minus && fmt.width > fmt.prec)
 		c += ft_putnchar_fd(' ', 1, fmt.width - fmt.prec - neg || fmt.plus);
 	return (c);
 }
@@ -51,7 +51,7 @@ int	ft_print_d_i_u(t_format fmt, va_list ap)
 	int		neg;
 
 	next = va_arg(ap, long);
-	neg = (next < 0 && fmt.specifier != 'u');
+	neg = (next < 0 && next != INT_MIN && fmt.specifier != 'u');
 	if (neg)
 		fmt.plus = 0;
 	if (next < 0 && fmt.specifier != 'u')
