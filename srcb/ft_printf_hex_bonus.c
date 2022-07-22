@@ -6,11 +6,11 @@
 /*   By: sciftci <sciftci@student.42kocaeli.com.tr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 00:46:43 by sciftci           #+#    #+#             */
-/*   Updated: 2022/07/22 04:05:17 by sciftci          ###   ########.fr       */
+/*   Updated: 2022/07/22 04:13:36 by sciftci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/ft_printf.h"
+#include "../inc/ft_printf_bonus.h"
 
 static char	*ft_sharp(t_format fmt)
 {
@@ -19,7 +19,7 @@ static char	*ft_sharp(t_format fmt)
 	return ("0x");
 }
 
-static int	ft_recursive_hex(t_format fmt, size_t n)
+static int	ft_recursive_hex(t_format fmt, size_t n, size_t iteration)
 {
 	int		count;
 	int		rem;
@@ -31,12 +31,13 @@ static int	ft_recursive_hex(t_format fmt, size_t n)
 	else
 		hextype = HEXAUP;
 	count = 0;
-	if (n > 0)
+	if (n > 0 || !iteration)
 	{
 		rem = n % 16;
 		c = hextype[rem];
 		n /= 16;
-		count += ft_recursive_hex(fmt, n);
+		iteration = 1;
+		count += ft_recursive_hex(fmt, n, iteration);
 		count += ft_putnchar_fd(c, 1, 1);
 	}
 	return (count);
@@ -64,7 +65,7 @@ int	ft_print_x(t_format fmt, va_list ap)
 	count += ft_putstrn_fd(ft_sharp(fmt), 1, 2 * (fmt.sharp && !fmt.zero && n));
 	count += ft_putnchar_fd('0', 1, fmt.prec - len);
 	if (len)
-		count += ft_recursive_hex(fmt, n);
+		count += ft_recursive_hex(fmt, n, n);
 	if (fmt.minus && fmt.width > fmt.prec)
 		count += ft_putnchar_fd(' ', 1, fmt.width - fmt.prec);
 	return (count);
@@ -84,7 +85,7 @@ int	ft_print_p(t_format fmt, va_list ap)
 		count += ft_putnchar_fd(' ', 1, fmt.width - length);
 	count += ft_putstrn_fd("0x", 1, 2);
 	if (length)
-		count += ft_recursive_hex(fmt, n);
+		count += ft_recursive_hex(fmt, n, n);
 	if (fmt.minus && fmt.width > length)
 		count += ft_putnchar_fd(' ', 1, fmt.width - length);
 	return (count);
