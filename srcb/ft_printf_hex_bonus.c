@@ -6,7 +6,7 @@
 /*   By: sciftci <sciftci@student.42kocaeli.com.tr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 00:46:43 by sciftci           #+#    #+#             */
-/*   Updated: 2022/07/22 03:27:00 by sciftci          ###   ########.fr       */
+/*   Updated: 2022/07/22 04:05:17 by sciftci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	ft_print_p(t_format fmt, va_list ap)
 	count += ft_putstrn_fd("0x", 1, 2);
 	if (length)
 		count += ft_recursive_hex(fmt, n);
-	if (fmt.minus && fmt.width > fmt.prec)
+	if (fmt.minus && fmt.width > length)
 		count += ft_putnchar_fd(' ', 1, fmt.width - length);
 	return (count);
 }
