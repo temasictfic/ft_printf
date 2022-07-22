@@ -90,4 +90,3 @@ int	ft_print_p(t_format fmt, va_list ap)
 		count += ft_putnchar_fd(' ', 1, fmt.width - length);
 	return (count);
 }
-
