@@ -6,7 +6,7 @@
 /*   By: sciftci <sciftci@student.42kocaeli.com.tr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 00:46:43 by sciftci           #+#    #+#             */
-/*   Updated: 2022/07/22 04:13:36 by sciftci          ###   ########.fr       */
+/*   Updated: 2022/07/25 21:54:48 by sciftci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ int	ft_print_x(t_format fmt, va_list ap)
 	if (fmt.sharp && n)
 		fmt.width -= 2;
 	count += ft_putstrn_fd(ft_sharp(fmt), 1, 2 * (fmt.sharp && fmt.zero && n));
-	if (!fmt.minus && fmt.zero && fmt.width > fmt.prec)
+	if (!fmt.minus && fmt.zero && fmt.width > fmt.prec && (!fmt.dot
+			|| fmt.neg_prec))
 		count += ft_putnchar_fd('0', 1, (fmt.width - fmt.prec));
 	else if (!fmt.minus && fmt.width > fmt.prec)
 		count += ft_putnchar_fd(' ', 1, (fmt.width - fmt.prec));

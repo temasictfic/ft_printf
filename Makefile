@@ -44,18 +44,18 @@ $(OBJB_DIR)/%.o: $(SRCB_DIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 compile_libft:
-#@if [ ! -d "libft" ]; then \
+	@if [ ! -d "libft" ]; then \
 		git clone https://github.com/temasictfic/libft.git; \
 	fi
 	@make all -C libft
 	@cp $(LIBFT) $(NAME)
 
 create_dirs:
-	@mkdir  $(OBJ_DIR)
-	@mkdir  $(OBJB_DIR)
+	@mkdir -p $(OBJ_DIR)
+	@mkdir -p $(OBJB_DIR)
 
 clean:
-#if [ -d "libft" ]; then \
+	if [ -d "libft" ]; then \
 		make clean -C libft; \
 	fi
 	$(RM) -r $(OBJ_DIR)
@@ -63,14 +63,11 @@ clean:
 
 fclean: clean
 	$(RM) -r $(NAME)
-#if [ -d "libft" ]; then \
+	if [ -d "libft" ]; then \
 		$(RM) $(LIBFT); \
 	fi
 
 re: fclean all
 
-
-#-include $(OBJ_DIR)/*.d
-#-include $(OBJB_DIR)/*.d
 
 .PHONY: all clean fclean bonus re compile_libft create_dirs
