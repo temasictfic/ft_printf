@@ -16,7 +16,6 @@ int	ft_printf(const char *str, ...)
 {
 	int		count;
 	va_list	ap;
-	char	*first;
 
 	count = 0;
 	va_start(ap, str);
@@ -24,18 +23,14 @@ int	ft_printf(const char *str, ...)
 	{
 		if (*str == '%')
 		{
-			first = (char *)str;
-			if (*(++str))
+			if (*++str)
 				count += ft_parse((char *)str, ap);
 			while (*str && !ft_strchr(SPECIFIERS, *str))
 				str++;
-			if (!(*str))
-				str = first;
 		}
 		else
 			count += ft_putnchar_fd(*str, 1, 1);
-		if (*str)
-			str++;
+		str++;
 	}
 	va_end(ap);
 	return (count);
